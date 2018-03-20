@@ -36,16 +36,44 @@ uint64_t siphash_2_4(uint64_t k[2], uint8_t *m, unsigned mlen){
     v[1] = k[1] ^ V1;
     v[2] = k[0] ^ V2;
     v[3] = k[1] ^ V3;
+    
+    //Découpage en Mot de 8 octet + inversion + ajout de l'entete
+
+    p = mlen / 8 ; // nombre de paquets
+    r = mlen % 8 ; // taille du reste
+
+    uint64_t * m_inverse = calloc(mlen+8,sizeof(uint64_t)); // alloc mémoire message inverse + entete
+
+    // inversion des paquets
+    for(unsigned i = 0 ; i < p; i++){
+        m_inverse[i+1] = ((uint64_t *)m)[p-i-1] ;
+    }
+
+    // ajout de la longueur sans reste
+
+    if(!r){
+        ((uint8_t *)m_inverse)[i] = mlen % 256 ;                  
+    }else{
+        // ajout de la longueur avec reste
+        uint64_t masque = ~((0 << 8 - r) - 1) ;
+        unint64_t reste = ((uint64_t *)m)[p] | masque ; 
+        m_inverse[i+1] = 8 - r >> m_inverse[i+1] | reste ;
+        ((uint8_t *)m_inverse)[i+1] = mlen % 256 ;
+    }
+     
+
+    /*uint64_t * message = calloc(mlen,sizeof(uint64_t));
+    for(int i = 0;i< mlen;i=+8){
+        message[i]= 0;
+        for(int j = 0;j<8;j++){
+            message[i]= message[i] + (m[i]<<(j*8));
+        }
+    }*/
 
     
-    //Découpage en Mot de 8 octet
-    uint64_t * m = calloc(mlen+1,sizeof(uint64_t));
-    for(int i = 0;i< mlen;i=+8){
-        m[i]= 0;
-        for(int j = 0;j<8;j++){
-            m[i]= m[i] + (m[i]<<(j*8));
-        }
-    }
+    
+
+    
     
     for(int i = 0; i < (mlen/8);i++){
       v[3] ^= m[i];
