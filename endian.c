@@ -1,7 +1,4 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdint.h>
-#include <time.h>
+#include "endian.h"
 
 void swap (uint8_t * a, uint8_t * b) {
     uint8_t tmp = *a ;
@@ -25,7 +22,7 @@ void reverse_endianess(void * bloc, unsigned len) {
 	    swap((uint8_t *)bloc + i, (uint8_t *)bloc + len - i - 1) ;
 }
 
-int main () {
+/*int main () {
     printf("Is little Endian ? %s\n", is_little_endian() ? "true" : "false") ;
     srand(time(NULL)) ;
     uint64_t i = 0x1234567887654321;
@@ -33,4 +30,4 @@ int main () {
     reverse_endianess(&i, 8) ;
     printf("reverse endian : %#lx\n", i) ; 
     return 0 ;
-}
+}*/

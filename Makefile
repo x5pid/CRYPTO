@@ -35,5 +35,11 @@ LDLIBS=
 
 all: q1
 
+q1 : q1.o endian.o
+	$(CC) -o $(CFLAGS) -o $@ $^
+
+%.o: %.c
+	$(CC) -c $(CFLAGS) -o $@ $<
+
 clean:
 	$(RM) q1 *.o
