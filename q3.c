@@ -76,22 +76,20 @@ uint64_t siphash_2_4(uint64_t k[2], uint8_t *m, unsigned mlen){
     return (v[0]^v[1]^v[2]^v[3]);
 }
 
+uint32_t sip_hash_fix32(uint32_t k, uint32_t m){
+    uint64_t knew[2] = {0};
+    uint8_t *mnew = malloc(sizeof(uint8_t)*4);    
+    memcpy(mnew, &m, 4) ;
+    memcpy(knew, &k, 4) ;
+    return (uint32_t) siphash_2_4(knew,mnew, 4);
+}
+
 int main (int argc, char *argv[]){
-    uint64_t k[2] = {0x0706050403020100,0x0f0e0d0c0b0a0908} ;
-    uint64_t k2[2] = {0x0,0x0} ;
-    uint8_t m[15] = {0x0, 0x1, 0x2, 0x3, 0x4, 0x5, 0x6, 0x7,0x8,0x9,0xa,0xb,0xc,0xd,0xe} ;
-    uint8_t m2[8] = {0x0, 0x1, 0x2, 0x3, 0x4, 0x5, 0x6, 0x7} ;
-    printf("k[0] = %#lx\n", k[0]) ;    
-    printf("k[1] = %#lx\n", k[1]) ;
-    
-    uint64_t res = siphash_2_4(k,m,15) ;
-    printf("resultat : %#lx\n", res) ;
-    
-    res = siphash_2_4(k,m2,8) ;
-    printf("resultat : %#lx\n", res) ;
-    
-    res = siphash_2_4(k2,NULL,0) ;
-    printf("resultat : %#lx\n", res) ;
+    uint32_t res;
+    uint32_t k = {0x03020100} ;
+    uint32_t m = {0x03020100} ;
+    res = sip_hash_fix32(k, m);
+    printf("resultat : %#x\n", res) ;
     
     return 0 ;
 }

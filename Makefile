@@ -33,7 +33,7 @@ CC=gcc
 CFLAGS= -Werror -Wall -g
 LDLIBS=
 
-all: q1
+all: q1 q3
 
 q1 : q1.o endian.o
 	$(CC) -o $(CFLAGS) -o $@ $^
