@@ -6,11 +6,17 @@
 uint8_t sx[16]={0x0C, 0x00, 0x0F, 0x0A, 0x02, 0x0B, 0x09, 0x05, 0x08, 0x03, 0x0D, 0x07, 0x01, 0x0E, 0x06, 0x04};
 int vh[16] ={5, 0, 1, 4, 7, 12, 3, 8, 13, 6, 9, 2, 15, 10, 11, 14};
 
-uint64_t twine_perm_z(uint64_t input){
+uint32_t twine_fun1(uint32_t k, uint32_t m){
 
+	uint64_t input = 0;
+	input |= m;
+	printf("test: %#lx\n",input) ;
+	input = (input<<32) | k;
+	printf("test: %#lx\n",input) ;
+	
 	unsigned char x[16];
 	for (int i = 0; i < 16; i++){
-		x[i] = (input >> (4*i)) & 0xF;
+		x[i] = (m >> (4*i)) & 0xF;
 	}
 	
 	unsigned char rk [36][8]={0};
@@ -35,20 +41,16 @@ uint64_t twine_perm_z(uint64_t input){
 	for(int i = 0; i < 8; i++) {
 		res[i] = x[2*i]<<4 | x[2*i+1];
 	}
-	return *((uint64_t*)res);
+	return  *((uint32_t*)res);
 }
 
 int main (int argc, char *argv[]){
 
-	uint64_t res = twine_perm_z(0x0000000000000000ULL);
-	printf("resultat : %#lx\n", res) ;
+	uint32_t res = twine_fun1(0x00000000, 0x00000000);
+	printf("resultat : %#x\n", res) ;
 	
-	res = twine_perm_z(0x123456789abcdef1ULL);
-	printf("resultat : %#lx\n", res) ;
-	
-	res = twine_perm_z(0xb4329ed38453aac8ULL);
-	printf("resultat : %#lx\n", res) ;
-	
+	res = twine_fun1(0xcdef1234, 0xab123478);
+	printf("resultat : %#x\n", res) ;
 	return 0 ;
 }
 
