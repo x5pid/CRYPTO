@@ -8,34 +8,34 @@ int vh[16] ={5, 0, 1, 4, 7, 12, 3, 8, 13, 6, 9, 2, 15, 10, 11, 14};
 
 uint64_t twine_perm_z(uint64_t input){
 
-	unsigned char x[16];
+	unsigned int x[16];
 	for (int i = 0; i < 16; i++){
 		x[i] = (input >> (4*i)) & 0xF;
 	}
 	
-	unsigned char rk [36][8]={0};
+	unsigned int rk [36][8]={0};
 	
 	for(int i = 0; i < 35; i++){
 		for(int j = 0; j < 8; j++){
 			x[2*j+1] ^= sx[x[2*j]^rk[i][j]];
 		}
 
-		unsigned char tmp[16];
+		unsigned int tmp[16];
 		for(int h = 0; h < 16; h++) {
 			tmp[vh[h]] = x[h];
 		}
-		memcpy(x, tmp, sizeof(unsigned char)*16) ;
+		memcpy(x, tmp, sizeof(unsigned int)*16) ;
 	}
 	
 	for(int j = 0; j < 8; j++){
 		x[2*j+1] ^= (sx[x[2*j]^rk[35][j]]);
 	}
 	
-	unsigned char res[16]={0};
-	for(int i = 0; i < 8; i++) {
-		res[i] = x[2*i]<<4 | x[2*i+1];
+	uint64_t res = 0;
+	for(int i = 0; i < 16; i++) {
+		res |= (uint64_t)x[i] << i*4;
 	}
-	return *((uint64_t*)res);
+	return res;
 }
 
 int main (int argc, char *argv[]){
