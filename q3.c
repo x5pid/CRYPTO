@@ -9,6 +9,14 @@
 #define V2 0x6c7967656e657261
 #define V3 0x7465646279746573
 
+#ifdef i386
+#define HEX64 "%#llx"
+#define MOD 256ULL
+#else
+#define HEX64 "%#lx"
+#define MOD 256UL
+#endif
+
 uint64_t rotation(uint64_t v,int n){
     uint64_t res =0;
     uint64_t tmp = v;
@@ -54,13 +62,13 @@ uint64_t siphash_2_4(uint64_t k[2], uint8_t *m, unsigned mlen){
     // ajout de la longueur sans reste
     if(!r){
         uint64_t tmp= 0;
-        tmp = (mlen % 256UL)<<56 ;
+        tmp = (mlen % MOD)<<56 ;
         m2[p]=tmp;
     }else{
         // ajout de la longueur avec reste   	
     	uint64_t tmp = ((uint64_t *) m)[p] ;
     	tmp &= ~((1 << (64 - (r+1)*8)) - 1) ;
-    	tmp |= (mlen % 256UL)<<56 ; 	
+    	tmp |= (mlen % MOD)<<56 ; 	
     	m2[p] = tmp ;   	
     }
     p++ ;

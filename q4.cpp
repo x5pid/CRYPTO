@@ -12,7 +12,15 @@
 #include <set>
 #include <iostream>
 
-#define K 0x0
+#define K 0x12345678
+
+#ifdef i386
+#define HEX64 "%#llx"
+#define MOD 256ULL
+#else
+#define HEX64 "%#lx"
+#define MOD 256UL
+#endif
 
 uint64_t rotation(uint64_t v,int n){
     uint64_t res =0;
@@ -59,13 +67,13 @@ uint64_t siphash_2_4(uint64_t k[2], uint8_t *m, unsigned mlen){
     // ajout de la longueur sans reste
     if(!r){
         uint64_t tmp= 0;
-        tmp = (mlen % 256UL)<<56 ;
+        tmp = (mlen % MOD)<<56 ;
         m2[p]=tmp;
     }else{
         // ajout de la longueur avec reste   	
-    	uint64_t tmp = ((uint64_t *) m)[p] ;
-    	tmp &= ~((1 << (64 - (r+1)*8)) - 1) ;
-    	tmp |= (mlen % 256UL)<<56 ; 	
+        uint64_t tmp ;
+        memcpy(&tmp, ((uint64_t *) m) + p, r) ;
+    	tmp |= (mlen % MOD)<<56 ;
     	m2[p] = tmp ;   	
     }
     p++ ;
@@ -97,7 +105,7 @@ uint32_t sip_hash_fix32N2(uint32_t k, uint32_t m){
 	*((uint32_t*) knew + i) = *((uint8_t*) &k + i) ;
     }
     uint64_t hash = siphash_2_4(knew,(uint8_t *)&m, 4);
-    printf("k : %0#x, key : %0#lx %0lx, hash : %0#lx, message : %u\n", k, knew[0], knew[1], hash, m) ;
+    //printf("k : %0#x, key : "HEX64" "HEX64", hash : "HEX64", message : %u\n", k, knew[0], knew[1], hash, m) ;
     return hash ;
 }
 
