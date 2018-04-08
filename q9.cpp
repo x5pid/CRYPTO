@@ -73,11 +73,11 @@ unordered_set<uint32_t> SearchColl::ensemble[NBTEST] ;
 unsigned SearchColl::num = 0 ;
 
 void SearchColl::test_coll_search () {
-    FILE * f = fopen("collisions4.txt", "w") ;
+    //FILE * f = fopen("collisions4.txt", "w") ;
     srand(time(NULL)) ;
     for (; num < NBTEST ; num++) {
         ensemble[num].reserve(1 << 16) ;
-        fprintf(f, "%u\n", SearchColl::coll_search(rand(), twine_fun1)) ;
+        fprintf(stdout, "%u\n", SearchColl::coll_search(rand(), twine_fun1)) ;
     }
 }
 
