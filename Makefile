@@ -35,7 +35,7 @@ CXX=g++
 CXXFLAGS= -O3 -Werror -Wall -g -std=c++11
 LDLIBS=
 
-all: q1q3q4 q6 q7 q10
+all: q1q3q4 q6 q7 q10 q9
 
 % : %.cpp %.hpp
 	$(CXX) $(CXXFLAGS) -o $@ $<
@@ -44,4 +44,4 @@ all: q1q3q4 q6 q7 q10
 	$(CC) $(CFLAGS) -o $@ $<
 
 clean:
-	$(RM) q1q3q4 q6 q7 q10
+	$(RM) q1q3q4 q6 q7 q10 q9
