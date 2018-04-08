@@ -26,7 +26,7 @@ uint64_t twine_perm_z(uint64_t input){
 		x[i] = (input >> (4*i)) & 0xF;
 	}
 	
-	unsigned int rk [36][8]={0};
+	unsigned int rk [36][8]={{]};
 	
 	for(int i = 0; i < 35; i++){
 		for(int j = 0; j < 8; j++){
