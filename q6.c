@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <string.h>
 
-#ifndef i386
+#if __SIZEOF_LONG__ == 4
 #define HEX64 "0x%016llx"
 #else
 #define HEX64 "0x%016lx"
