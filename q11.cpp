@@ -31,15 +31,15 @@ uint32_t twine_fun2(uint32_t k,uint16_t *m, unsigned mlen){
 }
 
 uint32_t twine_fun2_fix32(uint32_t k, uint32_t m){
-    uint16_t * mnew =(uint16_t*) malloc(sizeof(uint16_t)*2);
-	memcpy(mnew,&m, sizeof(uint16_t)*2) ;
+    uint16_t mnew[2] ;
+    memcpy(mnew,&m, sizeof m) ;
     return twine_fun2(k,mnew,2);
 }
 
 uint32_t twine_fun2_fix16(uint32_t k, uint32_t m){
-    uint16_t * mnew = (uint16_t*) malloc(sizeof(uint16_t));
-	memcpy(mnew,&m, sizeof(uint16_t)) ;
-    return twine_fun2(k,mnew,1);
+    uint16_t mnew ;
+    memcpy(&mnew,(uint16_t*)&m, sizeof(uint16_t)) ;
+    return twine_fun2(k,&mnew,1);
 }
 
 uint32_t twine_fun1(uint32_t k, uint32_t m){
