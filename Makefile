@@ -30,7 +30,7 @@
 # $^  - toutes les déps
 
 CC=gcc
-CFLAGS= -Werror -Wall -g
+CFLAGS= -Werror -Wall -g -std=c11
 CXX=g++
 CXXFLAGS= -O3 -Werror -Wall -g -std=c++11
 LDLIBS=
