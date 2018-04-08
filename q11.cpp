@@ -57,7 +57,7 @@ uint64_t twine_perm_z(uint64_t input){
 	for (int i = 0; i < 16; i++){
 		x[i] = (input >> (4*i)) & 0xF;
 	}
-	unsigned int rk [36][8]={{}};
+	unsigned int rk [36][8]={{0}};
 	for(int i = 0; i < 35; i++){
 		for(int j = 0; j < 8; j++){
 			x[2*j+1] ^= sx[x[2*j]^rk[i][j]];
