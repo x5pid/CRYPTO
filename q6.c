@@ -3,6 +3,12 @@
 #include <stdio.h>
 #include <string.h>
 
+#ifdef i386
+#define HEX64 "0x%016llx"
+#else
+#define HEX64 "0x%016lx"
+#endif
+
 uint8_t sx[16]={0x0C, 0x00, 0x0F, 0x0A, 0x02, 0x0B, 0x09, 0x05, 0x08, 0x03, 0x0D, 0x07, 0x01, 0x0E, 0x06, 0x04};
 int vh[16] ={5, 0, 1, 4, 7, 12, 3, 8, 13, 6, 9, 2, 15, 10, 11, 14};
 
@@ -41,13 +47,13 @@ uint64_t twine_perm_z(uint64_t input){
 int main (int argc, char *argv[]){
 
 	uint64_t res = twine_perm_z(0x0000000000000000ULL);
-	printf("resultat : %#lx\n", res) ;
+	printf("resultat : "HEX64"\n", res) ;
 	
 	res = twine_perm_z(0x123456789abcdef1ULL);
-	printf("resultat : %#lx\n", res) ;
+	printf("resultat : "HEX64"\n", res) ;
 	
 	res = twine_perm_z(0xb4329ed38453aac8ULL);
-	printf("resultat : %#lx\n", res) ;
+	printf("resultat : "HEX64"\n", res) ;
 	
 	return 0 ;
 }

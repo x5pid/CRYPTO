@@ -31,15 +31,17 @@
 
 CC=gcc
 CFLAGS= -Werror -Wall -g
+CXX=g++
+CXXFLAGS= -O3 -Werror -Wall -g -std=c++11
 LDLIBS=
 
-all: q1 q3 q6 q7 q10
+all: q1q3q4 q6 q7 q10
 
-q1 : q1.o endian.o
-	$(CC) -o $(CFLAGS) -o $@ $^
+% : %.cpp %.hpp
+	$(CXX) $(CXXFLAGS) -o $@ $<
 
-%.o: %.c
-	$(CC) -c $(CFLAGS) -o $@ $<
+% : %.c
+	$(CC) $(CFLAGS) -o $@ $<
 
 clean:
-	$(RM) q1 q3 q6 q7 q10 *.o
+	$(RM) q1q3q4 q6 q7 q10
